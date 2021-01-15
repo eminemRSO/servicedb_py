@@ -1,0 +1,64 @@
+version: '2'
+services:
+   
+  users:
+    container_name: users
+    build: ../user/.
+    networks:
+      - net
+    ports:
+      - 8080:8080
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_URL=db
+      - DB_NAME=user
+      - DB_PORT=5432
+    depends_on:
+      - db
+
+
+  services:
+    container_name: services
+    build: .
+    networks:
+      - net
+    ports:
+      - 8081:8081
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_URL=db2
+      - DB_NAME=services
+      - DB_PORT=5432
+      - TOKEN_URL=http://localhost:8080/v1/token
+    depends_on:
+      - db2
+      - users
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=user
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - net
+    ports:
+      - 5433:5432
+
+  db2:
+    image: postgres
+    environment:
+      - POSTGRES_DB=services
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - net
+    ports:
+      - 5434:5432
+
+
+networks:
+  net:
+    driver: bridge
