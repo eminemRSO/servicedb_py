@@ -23,7 +23,7 @@ spec:
         app: user-db
     spec:
       containers:
-        - image: mista123/users:latest
+        - image: mista123/servicedb:latest
           env:
             - name: SECRET_KEY
               value: "12a56cae4711ac88e4b18536476410ac3dd6d7ff21414921e3b187f86ace6475"
