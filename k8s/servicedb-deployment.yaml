@@ -23,8 +23,8 @@ spec:
         app: service-db
     spec:
       containers:
-        - image: mista123/servicedb:latest
-          name: service-db
+        - image: mista123/users:latest
+          name: user-db
           env:
             - name: DB_URL
               value: "83.212.127.63"
@@ -32,8 +32,6 @@ spec:
               value: "5432"
             - name: DB_USER
               value: "postgres"
-            - name: TOKEN_URL
-              value: "://51.104.153.48/:8081/v1/token"
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -41,10 +39,24 @@ spec:
                   key: postgres_pass
             - name: DB_NAME
               value: "mistrdb2"
+            - name: TOKEN_URL
+              value: "http://http://51.104.153.48:8081/token"
           ports:
-            - containerPort: 8094
+            - containerPort: 8082
               name: server
               protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /v1/health/live_check
+              port: server
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /v1/health/db_ready
+              port: server
+            initialDelaySeconds: 5
+            periodSeconds: 10
 
 ---
 
@@ -56,7 +68,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 8094
+    - port: 8082
       protocol: TCP
       targetPort: server
   selector:
