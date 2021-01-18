@@ -11,11 +11,11 @@ class Service(Base):
     service = Column(LargeBinary)
     service_name = Column(String)
 
-    allowed = relationship("Usersperm", back_populates="service")
+    allowed = relationship("User", back_populates="service")
 
 
-class Usersperm(Base):
-    __tablename__ = "usersperm"
+class User(Base):
+    __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String)
