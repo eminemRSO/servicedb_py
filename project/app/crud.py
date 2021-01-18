@@ -21,7 +21,7 @@ def add_allowed_user(db: Session, user: str, service_id: int):
 
 
 def create_service(db: Session, user: str, file: bytes, service_name: str):
-    db_service = models.Service(owner=user, service=file, service_name=service_name)
+    db_service = models.Service(owner=user, service="tst", service_name=service_name)
     db.add(db_service)
     db.commit()
     db.refresh(db_service)

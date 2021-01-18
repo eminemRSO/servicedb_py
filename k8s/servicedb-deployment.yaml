@@ -30,10 +30,10 @@ spec:
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: secrets
+                  name: secrets2
                   key: postgres_pass
             - name: DB_NAME
-              value: "mistrdb"
+              value: "mistrdb2"
             - name: TOKEN_URL
               value: "http://51.104.160.162:8081/v1/token"
           ports:
