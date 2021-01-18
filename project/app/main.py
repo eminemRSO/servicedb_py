@@ -60,19 +60,19 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
 
 
 @app.get("/v1/get_services/", response_model=List[int])
-async def create_upload_file(username: str = Depends(get_current_user), db: Session = Depends(get_db)):
+async def get_services(username: str = Depends(get_current_user), db: Session = Depends(get_db)):
     return crud.get_services(db, username)
 
 
-@app.get("/v1/get_service/")
-async def create_upload_file(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
+@app.get("/v1/get_service_name/")
+async def get_upload_file_name(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
     service = crud.get_service(db, username, service_id)
     if service:
-        return {"service":service["service"], "file_name": service["service_name"]}
+        return {"file_name": service["service_name"]}
 
 
 @app.delete("/v1/get_service/")
-async def create_upload_file(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
+async def get_service(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
     service = crud.delete_service(db, username, service_id)
     if service:
         return Response(service["service"])
@@ -80,7 +80,7 @@ async def create_upload_file(service_id: int, username: str = Depends(get_curren
 
 
 @app.get("/v1/add_allowed_user/", response_model=dict)
-async def create_upload_file(service_id: int, add_user: str, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
+async def add_allowed_user(service_id: int, add_user: str, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
     success = crud.try_add_allowed_user(db, add_user, service_id, username)
     if success:
         return {"success": True}
