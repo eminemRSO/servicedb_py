@@ -7,7 +7,7 @@ metadata:
   namespace: default
 spec:
   progressDeadlineSeconds: 600
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - image: mista123/servicedb:latest
-          name: user-db
+          name: service-db
           env:
             - name: DB_URL
               value: "83.212.127.63"
@@ -35,7 +35,7 @@ spec:
             - name: DB_NAME
               value: "mistrdb2"
             - name: TOKEN_URL
-              value: "http://52.236.9.195:8081/v1/token"
+              value: "http://51.104.160.162:8081/v1/token"
           ports:
             - containerPort: 8082
               name: server
