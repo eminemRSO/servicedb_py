@@ -68,7 +68,7 @@ async def create_upload_file(username: str = Depends(get_current_user), db: Sess
 async def create_upload_file(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
     service = crud.get_service(db, username, service_id)
     if service:
-        return Response(service["service"])
+        return {"service":service["service"], "file_name": service["service_name"]}
 
 
 @app.delete("/v1/get_service/")
