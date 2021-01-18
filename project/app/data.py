@@ -42,7 +42,7 @@ def get_service(db, user, id):
 def delete_service(db, user, id):
     global services
     if id in services:
-        if user in services[id]["allowed"]:
+        if user == services[id]["owner"]:
             tmp = deepcopy(services[id])
             del services[id]
             return tmp
