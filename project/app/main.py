@@ -61,21 +61,21 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
 
 @app.get("/v1/get_services/", response_model=List[int])
 async def create_upload_file(username: str = Depends(get_current_user), db: Session = Depends(get_db)):
-    return [service.id for service in crud.get_services(db, username)]
+    return crud.get_services(db, username)
 
 
 @app.get("/v1/get_service/")
 async def create_upload_file(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
     service = crud.get_service(db, username, service_id)
     if service:
-        return Response(service.service)
+        return Response(service["service"])
 
 
 @app.delete("/v1/get_service/")
 async def create_upload_file(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
     service = crud.delete_service(db, username, service_id)
     if service:
-        return Response(service.service)
+        return Response(service["service"])
     return {"error": "Could not access the service."}
 
 
@@ -90,7 +90,7 @@ async def create_upload_file(file: UploadFile = File(...), username: str = Depen
                              db: Session = Depends(get_db)):
     contents = await file.read()
     service = crud.create_service(db=db, user=username, file=contents, service_name=file.filename)
-    return {"id": service.id, "owner": service.owner}
+    return {"id": service["id"], "owner": service["owner"]}
 
 
 @app.get("/v1/health/live_check", response_model=str)
@@ -121,14 +121,14 @@ async def test_db(db: Session = Depends(get_db)):
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Failed to create new service",
         )
-    print(new_service.id)
-    get_service_ret = crud.get_service(db, new_service.owner, new_service.id)
-    if not get_service_ret or get_service_ret.owner != username:
+    print(new_service["id"])
+    get_service_ret = crud.get_service(db, new_service["owner"], new_service["id"])
+    if not get_service_ret or get_service_ret["owner"] != username:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Failed to get new service",
         )
-    del_new_user = crud.delete_service(db, new_service.owner, new_service.id)
+    del_new_user = crud.delete_service(db, new_service["owner"], new_service["id"])
     if not del_new_user:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
