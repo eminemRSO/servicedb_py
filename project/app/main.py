@@ -82,7 +82,9 @@ async def create_upload_file(service_id: int, username: str = Depends(get_curren
 @app.get("/v1/add_allowed_user/", response_model=dict)
 async def create_upload_file(service_id: int, add_user: str, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
     success = crud.try_add_allowed_user(db, add_user, service_id, username)
-    return {"success": success}
+    if success:
+        return {"success": True}
+    return {"success": False}
 
 
 @app.post("/v1/upload_service/", response_model=dict)
