@@ -7,7 +7,7 @@ services:
     networks:
       - net
     ports:
-      - 8080:8080
+      - 8081:8081
     environment:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
@@ -24,14 +24,14 @@ services:
     networks:
       - net
     ports:
-      - 8081:8081
+      - 8082:8082
     environment:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_URL=db2
       - DB_NAME=services
       - DB_PORT=5432
-      - TOKEN_URL=http://localhost:8080/v1/token
+      - TOKEN_URL=http://localhost:8081/v1/token
     depends_on:
       - db2
       - users

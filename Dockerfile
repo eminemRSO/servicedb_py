@@ -7,4 +7,4 @@ COPY ./project/app .
 
 EXPOSE 8082
 
-CMD ["uvicorn", "main:app", "--port", "8082", "--host", "0.0.0.0", "--reload"]
+CMD ["uvicorn", "main:app", "--port", "8082", "--host", "0.0.0.0"]

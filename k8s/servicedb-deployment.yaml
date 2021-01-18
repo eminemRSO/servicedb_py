@@ -12,18 +12,13 @@ spec:
   selector:
     matchLabels:
       app: service-db
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
   template:
     metadata:
       labels:
         app: service-db
     spec:
       containers:
-        - image: mista123/users:latest
+        - image: mista123/servicedb:latest
           name: user-db
           env:
             - name: DB_URL
@@ -38,9 +33,9 @@ spec:
                   name: secrets
                   key: postgres_pass
             - name: DB_NAME
-              value: "mistrdb2"
+              value: "mistrdb"
             - name: TOKEN_URL
-              value: "http://http://51.104.153.48:8081/token"
+              value: "http://40.67.248.180:8081/v1/token"
           ports:
             - containerPort: 8082
               name: server
