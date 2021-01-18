@@ -8,7 +8,7 @@ class Service(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     owner = Column(String)
-    service = Column(String)
+    service = Column(LargeBinary)
     service_name = Column(String)
 
     allowed = relationship("Usersperm", back_populates="service")

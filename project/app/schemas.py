@@ -16,7 +16,7 @@ class User(UserBase):
 
 class ServiceBase(BaseModel):
     owner: str
-    service: str
+    service: bytes
     service_name: str
 
 
