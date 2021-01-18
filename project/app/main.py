@@ -71,8 +71,15 @@ async def get_upload_file_name(service_id: int, username: str = Depends(get_curr
         return {"file_name": service["service_name"]}
 
 
-@app.delete("/v1/get_service/")
-async def get_service(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
+@app.get("/v1/get_service/")
+async def get_upload_file_name(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
+    service = crud.get_service(db, username, service_id)
+    if service:
+        return Response(service["service"])
+
+
+@app.delete("/v1/delete_service/")
+async def delete_service(service_id: int, username: str = Depends(get_current_user), db: Session = Depends(get_db)):
     service = crud.delete_service(db, username, service_id)
     if service:
         return Response(service["service"])
