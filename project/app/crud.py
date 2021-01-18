@@ -4,7 +4,7 @@ import models
 
 def try_add_allowed_user(db: Session, user: str, service_id: int, owner: str):
     if get_service(db, owner, service_id):
-        db_user = models.Users(username=user, service_id=service_id)
+        db_user = models.Usersperm(username=user, service_id=service_id)
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
@@ -13,7 +13,7 @@ def try_add_allowed_user(db: Session, user: str, service_id: int, owner: str):
 
 
 def add_allowed_user(db: Session, user: str, service_id: int):
-    db_user = models.Users(username=user, service_id=service_id)
+    db_user = models.Usersperm(username=user, service_id=service_id)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

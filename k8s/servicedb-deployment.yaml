@@ -33,7 +33,7 @@ spec:
                   name: secrets
                   key: postgres_pass
             - name: DB_NAME
-              value: "mistrdb2"
+              value: "mistrdb"
             - name: TOKEN_URL
               value: "http://51.104.160.162:8081/v1/token"
           ports:
@@ -43,12 +43,6 @@ spec:
           readinessProbe:
             httpGet:
               path: /v1/health/live_check
-              port: server
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /v1/health/db_ready
               port: server
             initialDelaySeconds: 5
             periodSeconds: 10
